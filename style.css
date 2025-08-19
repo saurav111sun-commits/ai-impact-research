@@ -1,160 +1,109 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@400;700&display=swap');
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('nav a').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
 
-body {
-    font-family: 'Lora', serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
-    color: #343a40;
-}
+    // Accordion functionality
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const content = header.nextElementSibling;
+            header.classList.toggle('active');
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+            }
+        });
+    });
 
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
+    // Chart.js implementation with new colors
+    const royalBlue = '#0A2463';
+    const goldAccent = '#D9AE4B';
+    const vibrantRed = '#dc3545';
+    const vibrantGreen = '#28a745';
+    const charcoal = '#343a40';
+    
+    // Sex Distribution Chart
+    const sexCtx = document.getElementById('sexDistributionChart').getContext('2d');
+    new Chart(sexCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Females', 'Males'],
+            datasets: [{
+                data: [63.2, 36.8],
+                backgroundColor: [royalBlue, charcoal],
+            }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'top' }}}
+    });
 
-header {
-    background-color: #343a40;
-    color: #fff;
-    padding: 2.5rem 0;
-    text-align: center;
-    border-bottom: 5px solid #007bff;
-}
+    // Year of Study Chart
+    const yearCtx = document.getElementById('yearOfStudyChart').getContext('2d');
+    new Chart(yearCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['1st Year', '2nd Year', '3rd Year'],
+            datasets: [{
+                data: [22.5, 36.8, 40.7],
+                backgroundColor: [vibrantGreen, goldAccent, vibrantRed],
+            }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'top' }}}
+    });
 
-header h1 {
-    font-family: 'Roboto', sans-serif;
-    font-size: 2.6rem;
-    margin: 0;
-}
+    // Positive Impact Chart
+    const positiveImpactCtx = document.getElementById('positiveImpactChart').getContext('2d');
+    new Chart(positiveImpactCtx, {
+        type: 'line',
+        data: {
+            labels: ['Control', 'Low', 'Moderate', 'High'],
+            datasets: [
+                {
+                    label: 'P1: Cognitive Enhancement',
+                    data: [5.9, 11.7, 14.0, 17.0],
+                    borderColor: royalBlue,
+                    tension: 0.2
+                },
+                {
+                    label: 'P4: Psychological Well-being',
+                    data: [5.8, 11.0, 14.2, 18.0],
+                    borderColor: vibrantGreen,
+                    tension: 0.2
+                }
+            ]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true }}}
+    });
 
-header .subtitle {
-    font-size: 1.3rem;
-    margin: 10px 0;
-    font-weight: 400;
-}
-
-header .authors {
-    font-style: italic;
-    color: #ced4da;
-    font-size: 1.1rem;
-}
-
-nav {
-    background-color: #495057;
-    padding: 1rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-nav a {
-    color: #fff;
-    text-decoration: none;
-    margin: 0 18px;
-    font-family: 'Roboto', sans-serif;
-    transition: color 0.3s;
-    font-weight: 500;
-}
-
-nav a:hover {
-    color: #007bff;
-}
-
-nav .container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-main {
-    padding: 2rem 0;
-}
-
-section {
-    background-color: #fff;
-    padding: 2.5rem;
-    margin-bottom: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-h2 {
-    font-family: 'Roboto', sans-serif;
-    color: #343a40;
-    border-bottom: 3px solid #007bff;
-    padding-bottom: 12px;
-    margin-top: 0;
-}
-
-.collapsible-content {
-    max-height: 120px;
-    overflow: hidden;
-    transition: max-height 0.5s ease-in-out;
-}
-
-#abstract h2 {
-    cursor: pointer;
-    position: relative;
-}
-
-#abstract h2::after {
-    content: ' (Click to Expand)';
-    font-size: 0.9rem;
-    font-weight: 400;
-    color: #6c757d;
-    position: absolute;
-    right: 0;
-    bottom: 15px;
-}
-
-.charts-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
-    margin-top: 2.5rem;
-}
-
-.chart-item {
-    background-color: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 8px;
-    border: 1px solid #dee2e6;
-}
-
-.chart-item h3 {
-    text-align: center;
-    margin-bottom: 1rem;
-    font-family: 'Roboto', sans-serif;
-    color: #495057;
-}
-
-footer {
-    text-align: center;
-    padding: 2rem 0;
-    background-color: #343a40;
-    color: #fff;
-    margin-top: 2rem;
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-    header h1 {
-        font-size: 2rem;
-    }
-    nav .container {
-        flex-direction: column;
-        align-items: center;
-    }
-    nav a {
-        margin: 8px 0;
-    }
-    section {
-        padding: 1.5rem;
-    }
-    #abstract h2::after {
-        display: none;
-    }
-}
+    // Negative Impact Chart
+    const negativeImpactCtx = document.getElementById('negativeImpactChart').getContext('2d');
+    new Chart(negativeImpactCtx, {
+        type: 'line',
+        data: {
+            labels: ['Control', 'Low', 'Moderate', 'High'],
+            datasets: [
+                {
+                    label: 'N1: Cognitive Overreliance',
+                    data: [10.0, 11.8, 11.7, 7.7],
+                    borderColor: vibrantRed,
+                    tension: 0.2
+                },
+                 {
+                    label: 'N3: Psychological Stress',
+                    data: [10.8, 11.8, 10.0, 7.4],
+                    borderColor: goldAccent,
+                    tension: 0.2
+                }
+            ]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: false }}}
+    });
+});
