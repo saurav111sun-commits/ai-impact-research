@@ -1,117 +1,199 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('nav a').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    });
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap');
 
-    // Collapsible abstract section
-    const abstractSection = document.getElementById('abstract');
-    const abstractContent = abstractSection.querySelector('.collapsible-content');
-    const abstractTitle = abstractSection.querySelector('h2');
-    let isCollapsed = true;
-    abstractContent.style.maxHeight = '120px';
+:root {
+    --royal-blue: #0A2463;
+    --dark-charcoal: #212529;
+    --gold-accent: #D9AE4B;
+    --off-white: #F8F9FA;
+    --light-gray: #DEE2E6;
+    --pure-white: #FFFFFF;
+}
 
-    abstractTitle.addEventListener('click', () => {
-        isCollapsed = !isCollapsed;
-        if (!isCollapsed) {
-            abstractContent.style.maxHeight = abstractContent.scrollHeight + 'px';
-            abstractTitle.setAttribute('data-after', ' (Click to Collapse)');
-        } else {
-            abstractContent.style.maxHeight = '120px';
-            abstractTitle.setAttribute('data-after', ' (Click to Expand)');
-        }
-    });
-    
-    // Set dynamic content for the ::after pseudo-element
-    const styleSheet = document.createElement("style");
-    document.head.appendChild(styleSheet);
-    abstractTitle.addEventListener('click', () => {
-         styleSheet.sheet.insertRule(`#abstract h2::after { content: '${abstractTitle.getAttribute("data-after")}'; }`, 0);
-    });
-     styleSheet.sheet.insertRule(`#abstract h2::after { content: ' (Click to Expand)'; }`, 0);
+body {
+    font-family: 'Lato', sans-serif;
+    line-height: 1.7;
+    margin: 0;
+    padding: 0;
+    background-color: var(--off-white);
+    color: var(--dark-charcoal);
+}
 
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
 
-    // Chart.js implementation
-    // Sex Distribution Chart
-    const sexCtx = document.getElementById('sexDistributionChart').getContext('2d');
-    new Chart(sexCtx, {
-        type: 'pie',
-        data: {
-            labels: ['Females', 'Males'],
-            datasets: [{
-                label: 'Sex Distribution',
-                data: [63.2, 36.8],
-                backgroundColor: ['#007bff', '#6c757d'],
-            }]
-        },
-        options: { responsive: true, plugins: { legend: { position: 'top' }}}
-    });
+header {
+    background: linear-gradient(rgba(10, 36, 99, 0.85), rgba(10, 36, 99, 0.85)), url('https://www.transparenttextures.com/patterns/clean-gray-paper.png');
+    color: var(--pure-white);
+    padding: 3rem 0;
+    text-align: center;
+}
 
-    // Year of Study Chart
-    const yearCtx = document.getElementById('yearOfStudyChart').getContext('2d');
-    new Chart(yearCtx, {
-        type: 'doughnut',
-        data: {
-            labels: ['1st Year', '2nd Year', '3rd Year'],
-            datasets: [{
-                label: 'Year of Study',
-                data: [22.5, 36.8, 40.7],
-                backgroundColor: ['#28a745', '#ffc107', '#dc3545'],
-            }]
-        },
-        options: { responsive: true, plugins: { legend: { position: 'top' }}}
-    });
+header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    margin: 10px 0;
+    color: var(--pure-white);
+}
 
-    // Positive Impact Chart
-    const positiveImpactCtx = document.getElementById('positiveImpactChart').getContext('2d');
-    new Chart(positiveImpactCtx, {
-        type: 'line',
-        data: {
-            labels: ['Control', 'Low', 'Moderate', 'High'],
-            datasets: [
-                {
-                    label: 'P1: Cognitive Enhancement',
-                    data: [5.9, 11.7, 14.0, 17.0],
-                    borderColor: '#007bff',
-                    tension: 0.2
-                },
-                {
-                    label: 'P4: Psychological Well-being',
-                    data: [5.8, 11.0, 14.2, 18.0],
-                    borderColor: '#28a745',
-                    tension: 0.2
-                }
-            ]
-        },
-        options: { responsive: true, scales: { y: { beginAtZero: true }}}
-    });
+header .subtitle {
+    font-size: 1.2rem;
+    margin: 0;
+    color: var(--gold-accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 
-    // Negative Impact Chart
-    const negativeImpactCtx = document.getElementById('negativeImpactChart').getContext('2d');
-    new Chart(negativeImpactCtx, {
-        type: 'line',
-        data: {
-            labels: ['Control', 'Low', 'Moderate', 'High'],
-            datasets: [
-                {
-                    label: 'N1: Cognitive Overreliance',
-                    data: [10.0, 11.8, 11.7, 7.7],
-                    borderColor: '#dc3545',
-                    tension: 0.2
-                },
-                 {
-                    label: 'N3: Psychological Stress',
-                    data: [10.8, 11.8, 10.0, 7.4],
-                    borderColor: '#ffc107',
-                    tension: 0.2
-                }
-            ]
-        },
-        options: { responsive: true, scales: { y: { beginAtZero: false }}}
-    });
-});
+header .authors {
+    font-style: italic;
+    color: var(--light-gray);
+    font-size: 1.1rem;
+    margin-top: 15px;
+}
+
+nav {
+    background-color: var(--dark-charcoal);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+nav a {
+    color: var(--pure-white);
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: 700;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--gold-accent);
+}
+
+nav .container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+main {
+    padding: 2.5rem 0;
+}
+
+section {
+    background-color: var(--pure-white);
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+    border-left: 5px solid var(--royal-blue);
+}
+
+h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--royal-blue);
+    font-size: 2.2rem;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--gold-accent);
+    padding-bottom: 10px;
+}
+
+h3 {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    color: var(--dark-charcoal);
+    font-size: 1.4rem;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.charts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.chart-item {
+    padding: 1.5rem;
+    border-radius: 8px;
+    background-color: var(--off-white);
+}
+
+.chart-item h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+/* Accordion Styles */
+.accordion-item {
+    border-bottom: 1px solid var(--light-gray);
+}
+.accordion-header {
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    text-align: left;
+    padding: 18px 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--dark-charcoal);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: relative;
+}
+.accordion-header::after {
+    content: '+';
+    position: absolute;
+    right: 10px;
+    font-size: 1.5rem;
+    color: var(--royal-blue);
+    transition: transform 0.3s;
+}
+.accordion-header.active::after {
+    transform: rotate(45deg);
+}
+.accordion-header:hover {
+    background-color: #f1f1f1;
+}
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+    padding: 0 15px;
+    background-color: var(--off-white);
+}
+
+footer {
+    text-align: center;
+    padding: 2rem 0;
+    background-color: var(--dark-charcoal);
+    color: var(--pure-white);
+    margin-top: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2.5rem;
+    }
+    nav .container {
+        flex-direction: column;
+        align-items: center;
+    }
+    nav a {
+        margin: 8px 0;
+    }
+}
